@@ -1,0 +1,6 @@
+[submodule "internal/service/gateway"]
+	path = internal/service/gateway
+	url = git@github.com:vzahanych/gateway.git
+[submodule "internal/service/admin-gateway"]
+	path = internal/service/admin-gateway
+	url = git@github.com:vzahanych/admin-gateway.git
