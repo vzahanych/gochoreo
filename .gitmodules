@@ -1,6 +1,0 @@
-[submodule "internal/service/gateway"]
-	path = internal/service/gateway
-	url = https://vzahanych:<REDACTED_GH_TOKEN>@github.com/vzahanych/gateway.git
-[submodule "internal/service/admin-gateway"]
-	path = internal/service/admin-gateway
-	url = https://vzahanych:<REDACTED_GH_TOKEN>@github.com/vzahanych/admin-gateway.git
