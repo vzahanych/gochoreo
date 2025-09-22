@@ -1,0 +1,4 @@
+file:.gitmodules
+git@github.com:vzahanych/gateway.git==>git@github.com:vzahanych/gateway.git
+git@github.com:vzahanych/admin-gateway.git==>git@github.com:vzahanych/admin-gateway.git
+regex:ghp_[A-Za-z0-9]{20,}==><REDACTED_GH_TOKEN>
