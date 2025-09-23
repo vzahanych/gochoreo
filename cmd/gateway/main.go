@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
-	gatewayConfig "github.com/vzahanych/gochoreo/internal/service/gateway/config"
-	"github.com/vzahanych/gochoreo/internal/service/gateway/core"
+	gatewayConfig "github.com/vzahanych/gateway/config"
+	"github.com/vzahanych/gateway/core"
 	cfgloader "github.com/vzahanych/gochoreo/pkg/config"
 	"github.com/vzahanych/gochoreo/pkg/logger"
 	"go.uber.org/zap"
@@ -16,6 +18,11 @@ func main() {
 
 	// main context
 	ctx := context.Background()
+
+	// Set up signal handling for graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	// Only listen for SIGTERM which is what Kubernetes sends
+	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGINT)
 
 	// Load configuration from file/env using reusable loader
 	loader := cfgloader.NewLoader(cfgloader.Options{
@@ -40,7 +47,7 @@ func main() {
 	}
 
 	// Create gateway instance
-	gateway, err := core.NewGateway(ctx, config)
+	gateway, err := core.NewGateway(ctx, config, log)
 	if err != nil {
 		log.Fatal("Failed to create gateway", zap.String("error", err.Error()))
 	}
@@ -62,7 +69,7 @@ func main() {
 	}()
 
 	// Graceful shutdown
-	if err := gateway.Shutdown(); err != nil {
+	if err := gateway.Shutdown(sigChan); err != nil { 
 		log.Fatal("Gateway shutdown error", zap.String("error", err.Error()))
 
 	}

@@ -1,0 +1,13 @@
+services:
+  dragonfly:
+    image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    ulimits:
+      memlock: -1
+    # Use host network mode for better performance.
+    # When using host mode, the service directly uses the host's
+    # network stack, so port mappings are not required.
+    network_mode: "host"
+    volumes:
+      - dragonflydata:/data
+volumes:
+  dragonflydata:
